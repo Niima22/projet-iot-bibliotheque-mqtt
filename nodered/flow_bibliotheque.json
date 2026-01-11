@@ -1,0 +1,36 @@
+[
+  {
+    "id": "mqtt_in_biblio",
+    "type": "mqtt in",
+    "z": "flow1",
+    "name": "bibliotheque/emprunt",
+    "topic": "bibliotheque/#",
+    "qos": "0",
+    "datatype": "json",
+    "broker": "mqtt_broker",
+    "x": 160,
+    "y": 200,
+    "wires": [["counter", "debug"]]
+  },
+  {
+    "id": "counter",
+    "type": "function",
+    "z": "flow1",
+    "name": "Total Emprunts",
+    "func": "if(msg.payload.action === 'emprunt'){\n flow.set('total', (flow.get('total')||0)+1);\n}\nmsg.payload = flow.get('total')||0;\nreturn msg;",
+    "x": 380,
+    "y": 200,
+    "wires": [["ui_text"]]
+  },
+  {
+    "id": "ui_text",
+    "type": "ui_text",
+    "z": "flow1",
+    "group": "grp1",
+    "label": "Total Emprunts",
+    "format": "{{msg.payload}}",
+    "x": 580,
+    "y": 200,
+    "wires": []
+  }
+]
